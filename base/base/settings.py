@@ -19,8 +19,8 @@ from .info import *
 BASE_DIR = Path(__file__).resolve().parent.parent
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'trafficsignboardinstructor@gmail.com' 
-EMAIL_HOST_PASSWORD = 'qbdksetamukcdvjc' 
+EMAIL_HOST_USER = 'Your Mail_id' 
+EMAIL_HOST_PASSWORD = 'Enter App Password' 
 EMAIL_PORT= 587
 
 
