@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Signboard Instructor</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% for message in messages %}
+    <div class="alert alert-dismissible">
+        <span><strong>Message:</strong> {{ message }}</span>
+        <button type="button" class="close" aria-label="Close" onclick="closeAlert(this)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    <header class="header">
+        <nav class="navbar">
+            <a class="navbar-brand" href="/">Traffic Signboard Instructor</a>
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="/signout" class="navbar-link">Sign Out</a></li>
+                {% else %}
+                <li><a href="/signup" class="navbar-link navbar-get-started">Get Started</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="hero">
+            <h1>Explore the World of Traffic Signs</h1>
+            <p>Upload images of traffic signs from anywhere, and our system will recognize them for you.<br> Learn their meaning and associated road safety rules to stay informed and safe!</p>
+            <button class="discover-now" onclick="window.location.href='/signup'">Discover Now</button>
+            <div class="hero-icons">
+                <i class="fas fa-camera fa-3x"></i>
+                <i class="fas fa-road fa-3x"></i>
+                <i class="fas fa-sign fa-3x"></i>
+            </div>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="features">
+            <div class="feature">
+                <i class="fas fa-sync-alt feature-icon"></i>
+                <h2>Real-Time Analysis</h2>
+                <p>Get instant results with detailed sign descriptions.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-book feature-icon"></i>
+                <h2>Stay Informed</h2>
+                <p>Learn about road safety and regulations with ease.</p>
+            </div>
+            <div class="feature">
+                {% if user.is_authenticated %}
+                <form action="{% url 'upload_image' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="upload-box-button">
+                        <i class="fas fa-upload feature-icon"></i>
+                        <h2>Upload Images</h2>
+                        <p>Quickly upload traffic sign images for recognition.</p>
+                    </button>
+                </form>
+                {% else %}
+                <button class="upload-box-button" onclick="alert('Please log in or sign up first.')">
+                    <i class="fas fa-upload feature-icon"></i>
+                    <h2>Upload Images</h2>
+                    <p>Quickly upload traffic sign images for recognition.</p>
+                </button>
+                {% endif %}
+            </div>
+        </section>
+        <section class="agenda-section">
+            <h2 class="agenda-title">Your Safety, Our Priority: Learn, Recognize, Drive</h2>
+            <div class="agenda-container">
+                <div class="agenda-box">
+                    <div class="agenda-content">
+                        <div class="agenda-circle">
+                            <img src="http://127.0.0.1:8000/static/images/bot.jpg" alt="Agenda Highlight" class="circle-image">
+                        </div>
+                        <div class="agenda-text">
+                            <ul class="agenda-list">
+                                <li>
+                                    <div class="agenda-item">
+                                        <p><b>Why Traffic Safety Matters</b><br>Promoting awareness for safer roads and responsible driving.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="agenda-item">
+                                        <p><b>Built for Impact<br></b>Empowering drivers with tools to enhance road safety.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="agenda-item">
+                                        <p><b>Simple. Fast. Reliable<br></b>Instant traffic sign recognition with accurate details.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="agenda-item">
+                                        <p><b>Join Our Mission<br></b>Be part of a community committed to road safety.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="agenda-item">
+                                        <p><b>Designed for Everyone<br></b>Whether you’re a new or experienced driver, we’re here for you.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="road-safety-tips">
+            <h2 class="section-title">Road Safety Tips</h2>
+            <div class="safety-cards-container">
+                <div class="safety-card">
+                    <i class="fas fa-car-side safety-icon"></i>
+                    <h3>Always Wear a Seatbelt</h3>
+                    <p>Ensure safety for yourself and others by wearing a seatbelt every time you drive or ride in a vehicle.</p>
+                </div>
+                <div class="safety-card">
+                    <i class="fas fa-mobile-alt safety-icon"></i>
+                    <h3>Avoid Distractions</h3>
+                    <p>Focus on the road. Avoid using your phone or engaging in activities that take your attention away from driving.</p>
+                </div>
+                <div class="safety-card">
+                    <i class="fas fa-traffic-light safety-icon"></i>
+                    <h3>Follow Traffic Signals</h3>
+                    <p>Always adhere to traffic lights and signs to ensure the safety of everyone on the road.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="links">
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Cookie Notice</a> | 
+                <a href="#">About</a> | 
+                <a href="#">Contact</a>
+            </div>
+            <p>&copy; 2024 Traffic Signboard Instructor. Powered by Infosys Springboard.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">Instagram</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function closeAlert(button) {
+            const alertBox = button.parentElement;
+            alertBox.style.opacity = '0';
+            setTimeout(() => alertBox.remove(), 300);
+        }
+    </script>
+</body>
+</html>

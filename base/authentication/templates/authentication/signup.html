@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+<body>
+    <a href="/" class="home-btn">Home</a>
+    <div class="container">
+        <!-- Alert Messages -->
+        {% for message in messages %}
+        <div class="alert alert-dismissible">
+            <span>{{ message }}</span>
+            <button type="button" class="close" aria-label="Close" onclick="closeAlert(this)">
+                &times;
+            </button>
+        </div>
+        {% endfor %}
+
+        <!-- Sign Up Form -->
+        <h3 class="form-title">Create Your Account!</h3>
+        <form method="post" action="/signup" autocomplete="off" id="signupForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <p class="error username-error"></p>
+            </div>
+            <div class="form-group">
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" name="fname" placeholder="Enter your first name" required>
+                <p class="error first-name-error"></p>
+            </div>
+            <div class="form-group">
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="lname" placeholder="Enter your last name" required>
+                <p class="error last-name-error"></p>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                <p class="error email-error"></p>
+            </div>
+            <div class="form-group">
+                <label for="pass1">Password</label>
+                <input type="password" id="pass1" name="pass1" placeholder="Enter your password" required>
+                <p class="error password-error"></p>
+            </div>
+            <div class="form-group">
+                <label for="pass2">Confirm Password</label>
+                <input type="password" id="pass2" name="pass2" placeholder="Confirm your password" required>
+                <p class="error confirm-password-error"></p>
+            </div>
+            <button type="submit" class="btn-primary" id="submitBtn" disabled>Sign Up</button>
+        </form>
+        <p class="user-link">
+            Already have an account? <a href="/signin">Log in now!</a>
+        </p>
+    </div>
+
+    <!-- JavaScript for Alerts and Form Validation -->
+    <script>
+        // Close Alert Box
+        function closeAlert(button) {
+            const alertBox = button.parentElement;
+            alertBox.style.opacity = '0';
+            setTimeout(() => alertBox.remove(), 300);
+        }
+
+        // Form Validation
+        const form = document.getElementById("signupForm");
+        const username = document.getElementById("username");
+        const fname = document.getElementById("fname");
+        const lname = document.getElementById("lname");
+        const email = document.getElementById("email");
+        const pass1 = document.getElementById("pass1");
+        const pass2 = document.getElementById("pass2");
+        const submitBtn = document.getElementById("submitBtn");
+
+        function validateEmptyFields() {
+            let allValid = true;
+
+            const fields = [
+                { element: username, errorClass: ".username-error", message: "Username cannot be empty." },
+                { element: fname, errorClass: ".first-name-error", message: "First Name cannot be empty." },
+                { element: lname, errorClass: ".last-name-error", message: "Last Name cannot be empty." },
+                { element: email, errorClass: ".email-error", message: "Email cannot be empty." },
+                { element: pass1, errorClass: ".password-error", message: "Password cannot be empty." },
+                { element: pass2, errorClass: ".confirm-password-error", message: "Confirm Password cannot be empty." }
+            ];
+
+            fields.forEach(({ element, errorClass, message }) => {
+                const error = document.querySelector(errorClass);
+                if (element.value.trim() === "") {
+                    error.textContent = message;
+                    allValid = false;
+                } else {
+                    error.textContent = "";
+                }
+            });
+
+            return allValid;
+        }
+
+        function validateEmail() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const error = document.querySelector(".email-error");
+            if (!emailRegex.test(email.value)) {
+                error.textContent = "Enter a valid email address.";
+                return false;
+            }
+            error.textContent = "";
+            return true;
+        }
+
+        function validatePassword() {
+            const error = document.querySelector(".password-error");
+            const confirmError = document.querySelector(".confirm-password-error");
+            if (pass1.value.length < 8) {
+                error.textContent = "Password must be at least 8 characters.";
+                return false;
+            }
+            if (pass1.value !== pass2.value) {
+                confirmError.textContent = "Passwords do not match.";
+                return false;
+            }
+            error.textContent = "";
+            confirmError.textContent = "";
+            return true;
+        }
+
+        function validateForm() {
+            const isEmptyValid = validateEmptyFields();
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+            submitBtn.disabled = !(isEmptyValid && isEmailValid && isPasswordValid);
+        }
+
+        form.addEventListener("input", validateForm);
+    </script>
+</body>
+</html>

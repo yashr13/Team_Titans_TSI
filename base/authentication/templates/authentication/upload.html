@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Sign Recognition</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Import Lottie Player -->
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url("{% static 'images/p1.jpg' %}") no-repeat center center fixed;
+            background-size: cover;          
+            height: 100vh;            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+       
+
+        h1 {
+            font-size: 4rem;
+            margin: 20px 0;
+            color: rgb(210, 241, 55); -webkit-text-stroke: 1px black;
+            
+        }
+
+        /* Container Styles */
+        .container {
+            background:rgba(255, 255, 255, 0.55);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            backdrop-filter: blur(80px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #3498db;
+            border-radius: 6px;
+            outline: none;
+            transition: 0.3s;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        input[type="file"]:hover {
+            border-color: #2980b9;
+            background-color: #f4f9ff;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .loader {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+            font-size: 2rem;
+
+            
+            justify-content: center;
+            align-items: center;
+            height: 100px; 
+        }
+
+        .loader.show {
+            display: flex;
+            animation: fadeIn 1s, moveBike 4s linear infinite;
+        }
+
+        /* .moving-graphic {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        } */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        
+
+        .image-container, .result {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .result p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        .result strong {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Traffic Sign Image</h1>
+
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" id="imageForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="image">Select Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+                <p> The image must be in JPEG format.</p>
+            </div>
+            <button type="submit"><i class="fas fa-search"></i> Recognize</button>
+        </form>
+
+        <div id="loader" class="loader">
+            <div class="moving-graphic">
+                <dotlottie-player
+                  src="https://lottie.host/bb899c76-069b-4377-afad-65b9ee38c895/lJwZ8qTk7V.lottie"
+                  background="transparent"
+                  speed="1"
+                  style="width: 300px; height: 300px"
+                  loop
+                  autoplay
+                  ></dotlottie-player>
+            </div>
+            <!-- <span>Processing your image...</span> -->
+        </div>
+
+        {% if result %}
+        <div class="image-container">
+            <h2>Uploaded Image:</h2>
+            <img src="{{ file_url }}" alt="Uploaded Image">
+        </div>
+
+        <div class="result">
+            <h2>Recognition Result:</h2>
+            <p><strong>Sign:</strong> {{ result }}</p>
+            <p><strong>Confidence:</strong> {{ confidence|floatformat:2 }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function showLoader(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Show the loader
+            document.getElementById("loader").classList.add("show");
+
+            // Simulate processing time (1 second)
+            setTimeout(() => {
+                // Submit the form after 1 second
+                document.getElementById("imageForm").submit();
+            }, 1500); // 1000 milliseconds = 1 second
+        }
+
+        // Attach the showLoader function to the form's submit event
+        document.getElementById("imageForm").addEventListener("submit", showLoader);
+    </script>
+</body>
+</html>

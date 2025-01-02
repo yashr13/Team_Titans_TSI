@@ -1,0 +1,188 @@
+/* General Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  position: relative;
+  overflow: hidden;
+  background: url("http://127.0.0.1:8000/static/images/home2.jpg") no-repeat center center fixed;
+  background-size: cover;
+
+  /* Centering the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Black overlay with 60% opacity */
+  z-index: -1; /* Keeps the overlay behind content */
+}
+
+/* Home Button */
+.home-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-btn:hover {
+  background-color: #357ABD;
+  box-shadow: 0 5px 10px rgba(74, 144, 226, 0.4);
+}
+
+/* Container Styles */
+.container {
+  max-width: 400px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95); /* Slightly opaque white */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Title */
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #4a90e2;
+  font-weight: bold;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+}
+
+.form-group .error {
+  color: red; /* Bright red color for errors */
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+/* Highlight input field with error */
+.form-group input.error-input {
+  border-color: red; /* Highlight input with error */
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.5); /* Red shadow for error */
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-block;
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  color: #ffffff;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #357ABD;
+  box-shadow: 0 8px 16px rgba(74, 144, 226, 0.4);
+}
+
+/* Alert Styles */
+.alert {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: #ffe5b4;
+  color: #d87d00;
+  border: 1px solid #ffb84d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert .error {
+  color: red; /* Red for errors inside the alert */
+  font-size: 1em;
+}
+
+/* Success Message */
+.success {
+  color: #28a745; /* Green for success messages */
+  font-size: 0.9em;
+}
+
+/* User Link */
+.user-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.user-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.user-link a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
